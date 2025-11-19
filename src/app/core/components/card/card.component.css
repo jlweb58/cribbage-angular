@@ -1,0 +1,10 @@
+.card-container {
+  display: inline-block;
+  /* If you need to resize it, check if the library supports font-size or width/height */
+}
+
+playing-card {
+  display: inline-block;
+  width: 150px;  /* Force a width */
+  height: 215px; /* Force a height */
+}
