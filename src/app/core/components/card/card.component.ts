@@ -31,9 +31,28 @@ export class CardComponent {
     if (!this.playingCardEl || !this.card) return;
 
     const el = this.playingCardEl.nativeElement;
-    el.setAttribute('rank', this.rankString);
-    el.setAttribute('suit', this.suitString);
-  }
+
+    // Workaround for library bug: attributeChangedCallback ignores changes if oldValue is null.
+    // We must ensure there is an 'oldValue' before setting the real one.
+
+    const targetRank = this.rankString;
+    const targetSuit = this.suitString;
+
+    // 1. Set a dummy value first (that is not the target, to ensure a change occurs)
+    // We use "0" because it's a string, and "0" is truthy in 'l && ...' check?
+    // Wait, "0" string is truthy. But let's be safe.
+    // Actually, the bug skips the FIRST set. So we just need to set it twice.
+
+    // Step 1: Set to something dummy. The library will ignore this update (render-wise)
+    // but the DOM attribute will update.
+    el.setAttribute('rank', 'dummy');
+    el.setAttribute('suit', 'dummy');
+
+    // Step 2: Set to the real value immediately.
+    // The library's attributeChangedCallback will see oldValue="dummy" (truthy),
+    // so it will proceed to render.
+    el.setAttribute('rank', targetRank);
+    el.setAttribute('suit', targetSuit);  }
 
   get rankString(): string {
     if (!this.card) return '';
