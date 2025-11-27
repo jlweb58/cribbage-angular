@@ -1,6 +1,7 @@
 
-<div class="card-container" *ngIf="card">
-
-  <playing-card #playingCard>
-  ></playing-card>
-</div>
+@if (card) {
+  <div class="card-container">
+    <playing-card #playingCard>
+    ></playing-card>
+  </div>
+}

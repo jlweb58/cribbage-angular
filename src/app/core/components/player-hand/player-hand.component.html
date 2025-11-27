@@ -1,7 +1,7 @@
 
 <div class="player-hand-container">
-  <ng-container *ngFor="let card of cards">
+  @for (card of cards; track card) {
     <app-card [card]="card"></app-card>
-  </ng-container>
+  }
 
 </div>
