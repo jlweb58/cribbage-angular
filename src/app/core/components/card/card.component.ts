@@ -1,14 +1,12 @@
 import {Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, Input, SimpleChanges, ViewChild} from '@angular/core';
 import {Card} from '../../models/card.model';
 import {Rank} from '../../models/rank.model';
-import {NgIf} from '@angular/common';
+
 
 @Component({
   selector: 'app-card',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [
-    NgIf
-  ],
+  imports: [],
   templateUrl: './card.component.html',
   styleUrl: './card.component.css'
 })
