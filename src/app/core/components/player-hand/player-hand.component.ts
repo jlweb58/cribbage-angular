@@ -27,4 +27,29 @@ export class PlayerHandComponent implements OnInit {
         this.cards = cards.unplayedCards;
       });
   }
+
+  onCardSelected(card: Card): void {
+    if (card.selected) {
+      // Always allow deselecting
+      card.selected = false;
+    } else {
+      // Only allow selecting if less than 2 are currently selected
+      const selectedCount = this.cards.filter(c => c.selected).length;
+      if (selectedCount < 2) {
+        card.selected = true;
+      }
+    }
+  }
+
+  get canSendToCrib(): boolean {
+    return this.cards.filter(c => c.selected).length === 2;
+  }
+
+  sendToCrib(): void {
+    if (this.canSendToCrib) {
+      // Remove selected cards from the hand
+      this.cards = this.cards.filter(c => !c.selected);
+      // TODO: Add logic to actually add these cards to the Crib
+    }
+  }
 }

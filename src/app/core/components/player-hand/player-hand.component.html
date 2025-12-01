@@ -1,7 +1,17 @@
-
 <div class="player-hand-container">
   @for (card of cards; track card) {
-    <app-card [card]="card"></app-card>
+    <app-card
+      [card]="card"
+      [class.card-selected]="card.selected"
+      (cardClick)="onCardSelected($event)">
+    </app-card>
   }
+</div>
 
+<div class="controls-container">
+  <button class="action-button"
+          [disabled]="!canSendToCrib"
+          (click)="sendToCrib()">
+    Send to Crib
+  </button>
 </div>

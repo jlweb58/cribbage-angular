@@ -1,4 +1,13 @@
-import {Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, Input, SimpleChanges, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  ElementRef,
+  EventEmitter,
+  Input, OnChanges, Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {Card} from '../../models/card.model';
 import {Rank} from '../../models/rank.model';
 
@@ -6,15 +15,48 @@ import {Rank} from '../../models/rank.model';
 @Component({
   selector: 'app-card',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [],
+  imports: [
+  ],
   templateUrl: './card.component.html',
   styleUrl: './card.component.css'
 })
-export class CardComponent {
+export class CardComponent implements AfterViewInit, OnChanges {
   @Input() card: Card | undefined;
+  @Output() cardClick = new EventEmitter<Card>();
 
-  @ViewChild('playingCard') playingCardEl: ElementRef | undefined;
+  private _playingCardEl: ElementRef | undefined;
 
+  @ViewChild('playingCard')
+  set playingCardEl(value: ElementRef | undefined) {
+    this._playingCardEl = value;
+    if (this._playingCardEl) {
+      this.updateAttributes();
+    }
+  }
+
+  get playingCardEl(): ElementRef | undefined {
+    return this._playingCardEl;
+  }
+
+  onSelectClick(event: MouseEvent) {
+    // Prevent the click from bubbling up to the card-container (which triggers reveal)
+    event.stopPropagation();
+    if (this.card) {
+      this.cardClick.emit(this.card);
+    }
+  }
+
+  onCardClick() {
+    if (this.card) {
+      this.cardClick.emit(this.card);
+    }
+  }
+
+  reveal() {
+    if (this.card) {
+      this.card.exposed = true;
+    }
+  }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['card'] && this.playingCardEl) {
       this.updateAttributes();
@@ -81,7 +123,6 @@ export class CardComponent {
     // Assuming Suit enum values are "SPADES", "HEARTS", etc.
     // We need "Spades", "Hearts", etc.
     const s = this.card.suit.toString();
-    let res = s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
-    return res;
+    return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
   }
 }

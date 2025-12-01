@@ -27,5 +27,5 @@ export const RankValue: Record<Rank, number> = {
   [Rank.TEN]: 10,
   [Rank.JACK]: 10,
   [Rank.QUEEN]: 10,
-  [Rank.KING]: 10
+  [Rank.KING]: 10,
 };

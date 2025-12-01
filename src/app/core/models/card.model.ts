@@ -5,7 +5,11 @@ export interface Card {
 
   suit: Suit;
 
-  rank: Rank ;
+  rank: Rank;
+
+  exposed: boolean;
+
+  selected: boolean;
 
 
 }

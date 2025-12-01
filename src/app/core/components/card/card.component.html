@@ -1,7 +1,14 @@
-
 @if (card) {
-  <div class="card-container">
-    <playing-card #playingCard>
-    ></playing-card>
+  <div class="card-container" (click)="reveal()">
+    @if (card?.exposed) {
+      <div class="selection-widget"
+           [class.selected]="card?.selected"
+           (click)="onSelectClick($event)">
+      </div>
+      <playing-card #playingCard>
+      </playing-card>
+    } @else {
+      <img src="assets/images/Card_back_01.svg" class="card-back" alt="Card Back">
+    }
   </div>
 }
