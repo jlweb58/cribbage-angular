@@ -3,13 +3,14 @@ import {Card} from '../models/card.model';
 import {HttpClient} from '@angular/common/http';
 import {catchError, Observable, tap} from 'rxjs';
 import {Hand} from '../models/hand';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HandService {
 
-  private serviceUrl = 'http://localhost:9015/cribbage/hands/';
+  private serviceUrl = environment.baseUrl + '/hands/';
 
   constructor(private http: HttpClient) { }
 
